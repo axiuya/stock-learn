@@ -1,7 +1,10 @@
 import datetime
 
-
 # 数字
+from collections import deque
+from math import pi
+
+
 def learn_number():
     a = 2 + 2
     print(a)
@@ -219,15 +222,150 @@ def cheeseshop(kind, *arguments, **keywords):
     for kw in keywords:
         print(kw, ":", keywords[kw])
 
+
 def fun_annotaion(ham: str, eggs: str = 'eggs') -> str:
     print("Annotations:", fun_annotaion.__annotations__)
     print("Arguments:", ham, eggs)
     return ham + ' and ' + eggs
+
+
+# 数据结构
+def test_datastruct():
+    fruits = ['orange', 'apple', 'pear', 'banana', 'kiwi', 'apple', 'banana']
+
+    print(fruits.count('apple'))
+    print(fruits.index('apple'))
+
+    copy = fruits.copy();
+    copy.reverse()
+    print(copy)
+
+    print(fruits.index('banana', 4))
+
+    fruits.sort()
+    print(fruits)
+
+    print(fruits.pop())
+
+    queue = deque(["Eric", "John", "Michael"])
+    queue.append("Terry")
+    queue.append("Graham")
+    print(queue)
+
+    print(queue.popleft())
+
+    squares = []
+    for x in range(10):
+        squares.append(x ** 2)
+    print(squares)
+
+    print(list(map(lambda x: x ** 2, range(10))))
+
+    # 列表推导式的方括号内包含以下内容：一个表达式，后面跟一个 for 子句，然后，是零个或多个 for 或 if 子句。
+    print([x ** 2 for x in range(10)])
+
+    # 表达式是元组（例如上例的 (x, y)）时，必须加上括号
+    print([(x, y) for x in [1, 2, 3] for y in [3, 1, 4] if x != y])
+
+    # 上面的公式等价于这段代码
+    combs = []
+    for x in [1, 2, 3]:
+        for y in [3, 1, 4]:
+            if x != y:
+                combs.append((x, y))
+
+    print([str(round(pi, i)) for i in range(1, 16)])
+
+    # 5.1.4. 嵌套的列表推导式
+
+    # 3x4 矩阵
+    matrix = [
+        [1, 2, 3, 4],
+        [5, 6, 7, 8],
+        [9, 10, 11, 12],
+    ]
+    print(matrix)
+
+    # 下面的列表推导式可以转置行列
+    print([[row[i] for row in matrix] for i in range(4)])
+
+    # 上面的转置行列的表达式可以写成下面的代码
+    transposed = []
+    for i in range(4):
+        # the following 3 lines implement the nested listcomp
+        transposed_row = []
+        for row in matrix:
+            transposed_row.append(row[i])
+        transposed.append(transposed_row)
+    print(transposed)
+
+    # 使用内置函数
+    print(list(zip(*matrix)))
+
+    # 5.2. del 语句
+    # del 语句按索引，而不是值从列表中移除元素。与返回值的 pop() 方法不同，
+    # del 语句也可以从列表中移除切片，或清空整个列表（之前是将空列表赋值给切片）。
+    a = [-1, 1, 66.25, 333, 333, 1234.5]
+    print(a)
+
+    del a[0]
+    print(a)
+
+    del a[2:5]
+    print(a)
+
+    del a[:]
+    print(a)
+
+    # 5.3. 元组和序列
+
+    # 元组由多个被逗号隔开的值组成
+    t = 12345, 54321, 'hello!'
+    print(t)
+
+    # 元组在输出时总被圆括号包围，以便能正确地解释嵌套元组
+    # 不允许为元组中的单个元素赋值，当然，可以创建含列表等可变对象的元组
+
+    # 虽然，元组与列表很像，但使用场景不同，用途也不同。元组是 immutable （不可
+    # 变的），一般可包含异质元素序列，通过解包（见本节下文）或索引访问（如果
+    # 是 namedtuples，可以属性访问）。列表是 mutable （可变的），列表元素一般为同质类型，可迭代访问。
+    # 用一对空圆括号就可以创建空元组；只有一个元素的元组可以通过在这个元素后添加逗号来构建
+    empty = ()
+    singleton = 'hello',
+    print(empty)
+    print(singleton)
+
+    # 元组的逆操作，称之为 序列解包，序列解包时，左侧变量与右侧序列元素的数量应相等
+    x, y, z = t
+    print(x, y, z)
+
+    # 5.4. 集合
+    # 集合是由不重复元素组成的无序容器
+
+    # 创建集合用花括号或 set() 函数。注意，创建空集合只能用 set()，不能用 {}，后者创建的是空字典
+    basket = {'apple', 'orange', 'apple', 'pear', 'orange', 'banana'}
+    print(basket)
+    print('apple' in basket)
+
+    a = set('abracadabra')
+    b = set('alacazam')
+    print(a)
+
+    print(a - b)
+    print(a | b)
+    print(a & b)
+    print(a ^ b)
+
+    # 集合也支持推导式
+    a = {x for x in 'abracadabra' if x not in 'abc'}
+    print(a)
+
 
 if __name__ == '__main__':
     # learn_number()
     # learn_string()
     # learn_list()
     # fibonacci_number(30)
+    # test_controlflow()
 
-    test_controlflow()
+    test_datastruct()
