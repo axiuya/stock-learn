@@ -1,0 +1,2845 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "用户注册，登录认证，管理权限等方面的操作！",
+        "version": "1.0.0",
+        "title": "用户模块的API",
+        "termsOfService": "http://127.0.0.1:80//api",
+        "contact": {
+            "name": "DING XIU AN",
+            "email": "dingxiuan@163.com"
+        },
+        "license": {
+            "name": "The Apache License, Version 2.0",
+            "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+        }
+    },
+    "host": "system-management-net",
+    "basePath": "/api",
+    "tags": [
+        {
+            "name": "授权",
+            "description": "对用户和角色授予或解除权限"
+        },
+        {
+            "name": "文件操作",
+            "description": "上传/下载 文件"
+        },
+        {
+            "name": "机构",
+            "description": "对机构的各种操作"
+        },
+        {
+            "name": "用户",
+            "description": "对用户的各种操作"
+        },
+        {
+            "name": "用户认证",
+            "description": "注册/登录/刷新token"
+        },
+        {
+            "name": "菜单",
+            "description": "对菜单的各种操作"
+        },
+        {
+            "name": "角色",
+            "description": "对角色的各种操作"
+        },
+        {
+            "name": "调度任务",
+            "description": "Quartz的调度任务"
+        }
+    ],
+    "paths": {
+        "/auth/login": {
+            "post": {
+                "tags": [
+                    "用户认证"
+                ],
+                "summary": "登录",
+                "operationId": "loginUsingPOST",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "*/*"
+                ],
+                "parameters": [
+                    {
+                        "name": "password",
+                        "in": "query",
+                        "description": "密码",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "username",
+                        "in": "query",
+                        "description": "用户名",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/HttpResultOfobject"
+                        }
+                    }
+                },
+                "deprecated": false
+            }
+        },
+        "/auth/register": {
+            "post": {
+                "tags": [
+                    "用户认证"
+                ],
+                "summary": "注册",
+                "operationId": "registerUsingPOST",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "*/*"
+                ],
+                "parameters": [
+                    {
+                        "name": "orgId",
+                        "in": "query",
+                        "description": "机构ID",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "password",
+                        "in": "query",
+                        "description": "密码",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "username",
+                        "in": "query",
+                        "description": "用户名",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/HttpResultOfobject"
+                        }
+                    }
+                },
+                "deprecated": false
+            }
+        },
+        "/auth/token": {
+            "get": {
+                "tags": [
+                    "用户认证"
+                ],
+                "summary": "刷新token",
+                "operationId": "refreshTokenUsingGET",
+                "produces": [
+                    "*/*"
+                ],
+                "parameters": [
+                    {
+                        "name": "refresh",
+                        "in": "header",
+                        "description": "刷新的token",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/HttpResultOfobject"
+                        }
+                    }
+                },
+                "deprecated": false
+            }
+        },
+        "/authorizations/role": {
+            "get": {
+                "tags": [
+                    "授权"
+                ],
+                "summary": "获取用户拥有的角色",
+                "operationId": "getUserOwnedRoleListUsingGET",
+                "produces": [
+                    "*/*"
+                ],
+                "parameters": [
+                    {
+                        "name": "userId",
+                        "in": "query",
+                        "description": "用户ID",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/HttpResultOfobject"
+                        }
+                    }
+                },
+                "deprecated": false
+            },
+            "post": {
+                "tags": [
+                    "授权"
+                ],
+                "summary": "给用户添加角色",
+                "operationId": "correlationUsingPOST",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "*/*"
+                ],
+                "parameters": [
+                    {
+                        "name": "roles",
+                        "in": "query",
+                        "description": "角色ID",
+                        "required": true,
+                        "type": "ref"
+                    },
+                    {
+                        "name": "userId",
+                        "in": "query",
+                        "description": "用户ID",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/HttpResultOfobject"
+                        }
+                    }
+                },
+                "deprecated": false
+            },
+            "delete": {
+                "tags": [
+                    "授权"
+                ],
+                "summary": "删除用户的角色",
+                "operationId": "uncorrelationUsingDELETE",
+                "produces": [
+                    "*/*"
+                ],
+                "parameters": [
+                    {
+                        "name": "roles",
+                        "in": "query",
+                        "description": "角色ID",
+                        "required": true,
+                        "type": "ref"
+                    },
+                    {
+                        "name": "userId",
+                        "in": "query",
+                        "description": "用户ID",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/HttpResultOfobject"
+                        }
+                    }
+                },
+                "deprecated": false
+            }
+        },
+        "/files/download": {
+            "get": {
+                "tags": [
+                    "文件操作"
+                ],
+                "summary": "上传下载",
+                "operationId": "downloadUsingGET",
+                "produces": [
+                    "*/*"
+                ],
+                "parameters": [
+                    {
+                        "name": "filename",
+                        "in": "query",
+                        "description": "文件名称",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "type",
+                        "in": "query",
+                        "description": "文件类型",
+                        "required": false,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                },
+                "deprecated": false
+            }
+        },
+        "/files/list": {
+            "get": {
+                "tags": [
+                    "文件操作"
+                ],
+                "summary": "文件列表",
+                "operationId": "listUsingGET",
+                "produces": [
+                    "*/*"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/HttpResultOfobject"
+                        }
+                    }
+                },
+                "deprecated": false
+            }
+        },
+        "/files/upload": {
+            "post": {
+                "tags": [
+                    "文件操作"
+                ],
+                "summary": "上传文件",
+                "operationId": "uploadUsingPOST",
+                "consumes": [
+                    "multipart/form-data"
+                ],
+                "produces": [
+                    "*/*"
+                ],
+                "parameters": [
+                    {
+                        "name": "deleteIfExist",
+                        "in": "query",
+                        "description": "如果存在是否删除",
+                        "required": false,
+                        "type": "string",
+                        "default": "false"
+                    },
+                    {
+                        "name": "file",
+                        "in": "formData",
+                        "description": "文件",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "filename",
+                        "in": "query",
+                        "description": "文件名称",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "type",
+                        "in": "query",
+                        "description": "文件类型",
+                        "required": false,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                },
+                "deprecated": false
+            }
+        },
+        "/menus": {
+            "get": {
+                "tags": [
+                    "菜单"
+                ],
+                "summary": "获取菜单",
+                "operationId": "getUsingGET",
+                "produces": [
+                    "*/*"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "query",
+                        "description": "菜单ID",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/HttpResultOfobject"
+                        }
+                    }
+                },
+                "deprecated": false
+            },
+            "post": {
+                "tags": [
+                    "菜单"
+                ],
+                "summary": "添加菜单",
+                "operationId": "createUsingPOST",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "*/*"
+                ],
+                "parameters": [
+                    {
+                        "name": "icon",
+                        "in": "query",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "id",
+                        "in": "query",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "menu",
+                        "description": "菜单数据",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "name",
+                        "in": "query",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "orgId",
+                        "in": "query",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "parentId",
+                        "in": "query",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "uri",
+                        "in": "query",
+                        "required": false,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/HttpResultOfobject"
+                        }
+                    }
+                },
+                "deprecated": false
+            },
+            "put": {
+                "tags": [
+                    "菜单"
+                ],
+                "summary": "更新菜单",
+                "operationId": "updateUsingPUT",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "*/*"
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "menu",
+                        "description": "菜单数据",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/HttpResultOfobject"
+                        }
+                    }
+                },
+                "deprecated": false
+            },
+            "delete": {
+                "tags": [
+                    "菜单"
+                ],
+                "summary": "删除菜单",
+                "operationId": "deleteUsingDELETE",
+                "produces": [
+                    "*/*"
+                ],
+                "parameters": [
+                    {
+                        "name": "force",
+                        "in": "query",
+                        "description": "是否强制",
+                        "required": false,
+                        "type": "boolean"
+                    },
+                    {
+                        "name": "id",
+                        "in": "query",
+                        "description": "菜单ID",
+                        "required": false,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/HttpResultOfobject"
+                        }
+                    }
+                },
+                "deprecated": false
+            }
+        },
+        "/menus/active": {
+            "patch": {
+                "tags": [
+                    "菜单"
+                ],
+                "summary": "改变菜单的状态",
+                "operationId": "changeActiveUsingPATCH",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "*/*"
+                ],
+                "parameters": [
+                    {
+                        "name": "active",
+                        "in": "formData",
+                        "description": "状态",
+                        "required": false,
+                        "type": "boolean"
+                    },
+                    {
+                        "name": "id",
+                        "in": "formData",
+                        "description": "菜单ID",
+                        "required": false,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/HttpResultOfobject"
+                        }
+                    }
+                },
+                "deprecated": false
+            }
+        },
+        "/menus/list": {
+            "get": {
+                "tags": [
+                    "菜单"
+                ],
+                "summary": "获取机构的菜单列表",
+                "operationId": "getMenuListUsingGET",
+                "produces": [
+                    "*/*"
+                ],
+                "parameters": [
+                    {
+                        "name": "active",
+                        "in": "query",
+                        "description": "是否可用",
+                        "required": false,
+                        "type": "boolean"
+                    },
+                    {
+                        "name": "multiLevel",
+                        "in": "query",
+                        "description": "是否返回多级机构的数据",
+                        "required": false,
+                        "type": "boolean"
+                    },
+                    {
+                        "name": "orgId",
+                        "in": "query",
+                        "description": "机构ID",
+                        "required": false,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/HttpResultOfobject"
+                        }
+                    }
+                },
+                "deprecated": false
+            }
+        },
+        "/menus/page": {
+            "get": {
+                "tags": [
+                    "菜单"
+                ],
+                "summary": "获取菜单列表分页",
+                "operationId": "getPageUsingGET",
+                "produces": [
+                    "*/*"
+                ],
+                "parameters": [
+                    {
+                        "name": "active",
+                        "in": "query",
+                        "required": false,
+                        "type": "boolean"
+                    },
+                    {
+                        "name": "condition.icon",
+                        "in": "query",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "condition.id",
+                        "in": "query",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "condition.name",
+                        "in": "query",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "condition.orgId",
+                        "in": "query",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "condition.parentId",
+                        "in": "query",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "condition.uri",
+                        "in": "query",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "endTime",
+                        "in": "query",
+                        "required": false,
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    {
+                        "name": "multiLevel",
+                        "in": "query",
+                        "required": false,
+                        "type": "boolean"
+                    },
+                    {
+                        "name": "offset",
+                        "in": "query",
+                        "required": false,
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    {
+                        "name": "orderBy",
+                        "in": "query",
+                        "required": false,
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "collectionFormat": "multi"
+                    },
+                    {
+                        "name": "page",
+                        "description": "分页参数",
+                        "required": false,
+                        "schema": {
+                            "$ref": "#/definitions/RequestPage"
+                        }
+                    },
+                    {
+                        "name": "pageNum",
+                        "in": "query",
+                        "required": false,
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    {
+                        "name": "pageSize",
+                        "in": "query",
+                        "required": false,
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    {
+                        "name": "startTime",
+                        "in": "query",
+                        "required": false,
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/HttpResultOfobject"
+                        }
+                    }
+                },
+                "deprecated": false
+            }
+        },
+        "/organizations": {
+            "get": {
+                "tags": [
+                    "机构"
+                ],
+                "summary": "获取机构",
+                "operationId": "getUsingGET_1",
+                "produces": [
+                    "*/*"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "query",
+                        "description": "机构ID",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/HttpResultOfobject"
+                        }
+                    }
+                },
+                "deprecated": false
+            },
+            "post": {
+                "tags": [
+                    "机构"
+                ],
+                "summary": "添加机构",
+                "operationId": "createUsingPOST_1",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "*/*"
+                ],
+                "parameters": [
+                    {
+                        "name": "autoCode",
+                        "in": "query",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "code",
+                        "in": "query",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "id",
+                        "in": "query",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "logo",
+                        "in": "query",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "name",
+                        "in": "query",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "org",
+                        "description": "机构数据",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/SysOrganization"
+                        }
+                    },
+                    {
+                        "name": "orgId",
+                        "in": "query",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "orgName",
+                        "in": "query",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "parentAutoCode",
+                        "in": "query",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "parentId",
+                        "in": "query",
+                        "required": false,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/HttpResultOfobject"
+                        }
+                    }
+                },
+                "deprecated": false
+            },
+            "put": {
+                "tags": [
+                    "机构"
+                ],
+                "summary": "更新机构",
+                "operationId": "updateUsingPUT_1",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "*/*"
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "org",
+                        "description": "机构数据",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/SysOrganization"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/HttpResultOfobject"
+                        }
+                    }
+                },
+                "deprecated": false
+            },
+            "delete": {
+                "tags": [
+                    "机构"
+                ],
+                "summary": "删除机构",
+                "operationId": "deleteUsingDELETE_1",
+                "produces": [
+                    "*/*"
+                ],
+                "parameters": [
+                    {
+                        "name": "force",
+                        "in": "query",
+                        "description": "是否强制",
+                        "required": false,
+                        "type": "boolean"
+                    },
+                    {
+                        "name": "id",
+                        "in": "query",
+                        "description": "机构ID",
+                        "required": false,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/HttpResultOfobject"
+                        }
+                    }
+                },
+                "deprecated": false
+            }
+        },
+        "/organizations/active": {
+            "patch": {
+                "tags": [
+                    "机构"
+                ],
+                "summary": "改变机构的状态",
+                "operationId": "changeActiveUsingPATCH_1",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "*/*"
+                ],
+                "parameters": [
+                    {
+                        "name": "active",
+                        "in": "formData",
+                        "description": "状态",
+                        "required": false,
+                        "type": "boolean"
+                    },
+                    {
+                        "name": "id",
+                        "in": "formData",
+                        "description": "机构ID",
+                        "required": false,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/HttpResultOfobject"
+                        }
+                    }
+                },
+                "deprecated": false
+            }
+        },
+        "/organizations/children": {
+            "get": {
+                "tags": [
+                    "机构"
+                ],
+                "summary": "获取子机构",
+                "operationId": "getChildrenUsingGET",
+                "produces": [
+                    "*/*"
+                ],
+                "parameters": [
+                    {
+                        "name": "active",
+                        "in": "query",
+                        "description": "是否可用",
+                        "required": false,
+                        "type": "boolean"
+                    },
+                    {
+                        "name": "id",
+                        "in": "query",
+                        "description": "机构ID",
+                        "required": false,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/HttpResultOfobject"
+                        }
+                    }
+                },
+                "deprecated": false
+            }
+        },
+        "/organizations/list": {
+            "get": {
+                "tags": [
+                    "机构"
+                ],
+                "summary": "获取全部的机构",
+                "operationId": "getOrgListUsingGET",
+                "produces": [
+                    "*/*"
+                ],
+                "parameters": [
+                    {
+                        "name": "active",
+                        "in": "query",
+                        "description": "是否可用",
+                        "required": false,
+                        "type": "boolean"
+                    },
+                    {
+                        "name": "id",
+                        "in": "query",
+                        "description": "机构ID",
+                        "required": false,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/HttpResultOfobject"
+                        }
+                    }
+                },
+                "deprecated": false
+            }
+        },
+        "/organizations/page": {
+            "get": {
+                "tags": [
+                    "机构"
+                ],
+                "summary": "获取子机构列表分页",
+                "operationId": "getPageUsingGET_1",
+                "produces": [
+                    "*/*"
+                ],
+                "parameters": [
+                    {
+                        "name": "active",
+                        "in": "query",
+                        "required": false,
+                        "type": "boolean"
+                    },
+                    {
+                        "name": "condition.autoCode",
+                        "in": "query",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "condition.code",
+                        "in": "query",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "condition.id",
+                        "in": "query",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "condition.logo",
+                        "in": "query",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "condition.name",
+                        "in": "query",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "condition.orgId",
+                        "in": "query",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "condition.orgName",
+                        "in": "query",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "condition.parentAutoCode",
+                        "in": "query",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "condition.parentId",
+                        "in": "query",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "endTime",
+                        "in": "query",
+                        "required": false,
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    {
+                        "name": "multiLevel",
+                        "in": "query",
+                        "required": false,
+                        "type": "boolean"
+                    },
+                    {
+                        "name": "offset",
+                        "in": "query",
+                        "required": false,
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    {
+                        "name": "orderBy",
+                        "in": "query",
+                        "required": false,
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "collectionFormat": "multi"
+                    },
+                    {
+                        "name": "page",
+                        "description": "分页参数",
+                        "required": false,
+                        "schema": {
+                            "$ref": "#/definitions/RequestPage"
+                        }
+                    },
+                    {
+                        "name": "pageNum",
+                        "in": "query",
+                        "required": false,
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    {
+                        "name": "pageSize",
+                        "in": "query",
+                        "required": false,
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    {
+                        "name": "startTime",
+                        "in": "query",
+                        "required": false,
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/HttpResultOfobject"
+                        }
+                    }
+                },
+                "deprecated": false
+            }
+        },
+        "/organizations/tree": {
+            "get": {
+                "tags": [
+                    "机构"
+                ],
+                "summary": "获取组织机构树",
+                "operationId": "getOrgTreeUsingGET",
+                "produces": [
+                    "*/*"
+                ],
+                "parameters": [
+                    {
+                        "name": "active",
+                        "in": "query",
+                        "description": "是否可用",
+                        "required": false,
+                        "type": "boolean"
+                    },
+                    {
+                        "name": "id",
+                        "in": "query",
+                        "description": "机构ID",
+                        "required": false,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/HttpResultOfobject"
+                        }
+                    }
+                },
+                "deprecated": false
+            }
+        },
+        "/quartz": {
+            "get": {
+                "tags": [
+                    "调度任务"
+                ],
+                "summary": "获取Cron调度任务",
+                "operationId": "getUsingGET_2",
+                "produces": [
+                    "*/*"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "query",
+                        "description": "Cron调度任务的ID",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/HttpResultOfobject"
+                        }
+                    }
+                },
+                "deprecated": false
+            },
+            "post": {
+                "tags": [
+                    "调度任务"
+                ],
+                "summary": "添加任务调度",
+                "operationId": "createUsingPOST_2",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "*/*"
+                ],
+                "parameters": [
+                    {
+                        "name": "active",
+                        "in": "query",
+                        "required": false,
+                        "type": "boolean"
+                    },
+                    {
+                        "name": "async",
+                        "in": "query",
+                        "required": false,
+                        "type": "boolean"
+                    },
+                    {
+                        "name": "calendarName",
+                        "in": "query",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "createTime",
+                        "in": "query",
+                        "required": false,
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    {
+                        "name": "cronExpression",
+                        "in": "query",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "description",
+                        "in": "query",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "disallowConcurrent",
+                        "in": "query",
+                        "required": false,
+                        "type": "boolean"
+                    },
+                    {
+                        "name": "endAt",
+                        "in": "query",
+                        "required": false,
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    {
+                        "name": "id",
+                        "in": "query",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "jobAlias",
+                        "in": "query",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "jobData",
+                        "in": "query",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "jobGroup",
+                        "in": "query",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "jobName",
+                        "in": "query",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "jobType",
+                        "in": "query",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "misfirePolicy",
+                        "in": "query",
+                        "required": false,
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    {
+                        "name": "persistent",
+                        "in": "query",
+                        "required": false,
+                        "type": "boolean"
+                    },
+                    {
+                        "name": "priority",
+                        "in": "query",
+                        "required": false,
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    {
+                        "name": "recovery",
+                        "in": "query",
+                        "required": false,
+                        "type": "boolean"
+                    },
+                    {
+                        "name": "simpleInterval",
+                        "in": "query",
+                        "required": false,
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    {
+                        "name": "simpleRepeatCount",
+                        "in": "query",
+                        "required": false,
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    {
+                        "name": "startAt",
+                        "in": "query",
+                        "required": false,
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    {
+                        "name": "task",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "triggerGroup",
+                        "in": "query",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "triggerName",
+                        "in": "query",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "triggerType",
+                        "in": "query",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "updateTime",
+                        "in": "query",
+                        "required": false,
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    {
+                        "name": "worker",
+                        "in": "query",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "workerType",
+                        "in": "query",
+                        "required": false,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/HttpResultOfobject"
+                        }
+                    }
+                },
+                "deprecated": false
+            },
+            "put": {
+                "tags": [
+                    "调度任务"
+                ],
+                "summary": "更新任务调度",
+                "operationId": "updateUsingPUT_2",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "*/*"
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "task",
+                        "description": "任务调度数据",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/HttpResultOfobject"
+                        }
+                    }
+                },
+                "deprecated": false
+            },
+            "delete": {
+                "tags": [
+                    "调度任务"
+                ],
+                "summary": "删除任务调度",
+                "operationId": "deleteUsingDELETE_2",
+                "produces": [
+                    "*/*"
+                ],
+                "parameters": [
+                    {
+                        "name": "force",
+                        "in": "query",
+                        "description": "是否强制",
+                        "required": false,
+                        "type": "boolean"
+                    },
+                    {
+                        "name": "id",
+                        "in": "query",
+                        "description": "任务调度ID",
+                        "required": false,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/HttpResultOfobject"
+                        }
+                    }
+                },
+                "deprecated": false
+            }
+        },
+        "/quartz/active": {
+            "patch": {
+                "tags": [
+                    "调度任务"
+                ],
+                "summary": "改变任务调度的状态",
+                "operationId": "changeActiveUsingPATCH_2",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "*/*"
+                ],
+                "parameters": [
+                    {
+                        "name": "active",
+                        "in": "formData",
+                        "description": "状态",
+                        "required": false,
+                        "type": "boolean"
+                    },
+                    {
+                        "name": "id",
+                        "in": "formData",
+                        "description": "任务调度ID",
+                        "required": false,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/HttpResultOfobject"
+                        }
+                    }
+                },
+                "deprecated": false
+            }
+        },
+        "/quartz/jobType": {
+            "get": {
+                "tags": [
+                    "调度任务"
+                ],
+                "summary": "获取Job类型",
+                "operationId": "getJobTypeUsingGET",
+                "produces": [
+                    "*/*"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/HttpResultOfobject"
+                        }
+                    }
+                },
+                "deprecated": false
+            }
+        },
+        "/quartz/list": {
+            "get": {
+                "tags": [
+                    "调度任务"
+                ],
+                "summary": "获取机构的任务调度列表",
+                "operationId": "getJobTaskListUsingGET",
+                "produces": [
+                    "*/*"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/HttpResultOfobject"
+                        }
+                    }
+                },
+                "deprecated": false
+            }
+        },
+        "/quartz/page": {
+            "get": {
+                "tags": [
+                    "调度任务"
+                ],
+                "summary": "获取任务调度列表分页",
+                "operationId": "getPageUsingGET_2",
+                "produces": [
+                    "*/*"
+                ],
+                "parameters": [
+                    {
+                        "name": "active",
+                        "in": "query",
+                        "required": false,
+                        "type": "boolean"
+                    },
+                    {
+                        "name": "condition.active",
+                        "in": "query",
+                        "required": false,
+                        "type": "boolean"
+                    },
+                    {
+                        "name": "condition.async",
+                        "in": "query",
+                        "required": false,
+                        "type": "boolean"
+                    },
+                    {
+                        "name": "condition.calendarName",
+                        "in": "query",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "condition.createTime",
+                        "in": "query",
+                        "required": false,
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    {
+                        "name": "condition.cronExpression",
+                        "in": "query",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "condition.description",
+                        "in": "query",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "condition.disallowConcurrent",
+                        "in": "query",
+                        "required": false,
+                        "type": "boolean"
+                    },
+                    {
+                        "name": "condition.endAt",
+                        "in": "query",
+                        "required": false,
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    {
+                        "name": "condition.id",
+                        "in": "query",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "condition.jobAlias",
+                        "in": "query",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "condition.jobData",
+                        "in": "query",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "condition.jobGroup",
+                        "in": "query",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "condition.jobName",
+                        "in": "query",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "condition.jobType",
+                        "in": "query",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "condition.misfirePolicy",
+                        "in": "query",
+                        "required": false,
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    {
+                        "name": "condition.persistent",
+                        "in": "query",
+                        "required": false,
+                        "type": "boolean"
+                    },
+                    {
+                        "name": "condition.priority",
+                        "in": "query",
+                        "required": false,
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    {
+                        "name": "condition.recovery",
+                        "in": "query",
+                        "required": false,
+                        "type": "boolean"
+                    },
+                    {
+                        "name": "condition.simpleInterval",
+                        "in": "query",
+                        "required": false,
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    {
+                        "name": "condition.simpleRepeatCount",
+                        "in": "query",
+                        "required": false,
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    {
+                        "name": "condition.startAt",
+                        "in": "query",
+                        "required": false,
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    {
+                        "name": "condition.triggerGroup",
+                        "in": "query",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "condition.triggerName",
+                        "in": "query",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "condition.triggerType",
+                        "in": "query",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "condition.updateTime",
+                        "in": "query",
+                        "required": false,
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    {
+                        "name": "condition.worker",
+                        "in": "query",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "condition.workerType",
+                        "in": "query",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "endTime",
+                        "in": "query",
+                        "required": false,
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    {
+                        "name": "multiLevel",
+                        "in": "query",
+                        "required": false,
+                        "type": "boolean"
+                    },
+                    {
+                        "name": "offset",
+                        "in": "query",
+                        "required": false,
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    {
+                        "name": "orderBy",
+                        "in": "query",
+                        "required": false,
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "collectionFormat": "multi"
+                    },
+                    {
+                        "name": "page",
+                        "description": "分页参数",
+                        "required": false,
+                        "schema": {
+                            "$ref": "#/definitions/RequestPage"
+                        }
+                    },
+                    {
+                        "name": "pageNum",
+                        "in": "query",
+                        "required": false,
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    {
+                        "name": "pageSize",
+                        "in": "query",
+                        "required": false,
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    {
+                        "name": "startTime",
+                        "in": "query",
+                        "required": false,
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/HttpResultOfobject"
+                        }
+                    }
+                },
+                "deprecated": false
+            }
+        },
+        "/quartz/triggerType": {
+            "get": {
+                "tags": [
+                    "调度任务"
+                ],
+                "summary": "获取触发器类型",
+                "operationId": "getTriggerTypeUsingGET",
+                "produces": [
+                    "*/*"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/HttpResultOfobject"
+                        }
+                    }
+                },
+                "deprecated": false
+            }
+        },
+        "/quartz/workerType": {
+            "get": {
+                "tags": [
+                    "调度任务"
+                ],
+                "summary": "获取Worker类型",
+                "operationId": "getWorkerTypeUsingGET",
+                "produces": [
+                    "*/*"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/HttpResultOfobject"
+                        }
+                    }
+                },
+                "deprecated": false
+            }
+        },
+        "/roles": {
+            "get": {
+                "tags": [
+                    "角色"
+                ],
+                "summary": "获取角色",
+                "operationId": "getUsingGET_3",
+                "produces": [
+                    "*/*"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "query",
+                        "description": "角色ID",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/HttpResultOfobject"
+                        }
+                    }
+                },
+                "deprecated": false
+            },
+            "post": {
+                "tags": [
+                    "角色"
+                ],
+                "summary": "添加角色",
+                "operationId": "createUsingPOST_3",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "*/*"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "query",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "name",
+                        "in": "query",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "orgId",
+                        "in": "query",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "role",
+                        "description": "角色数据",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/HttpResultOfobject"
+                        }
+                    }
+                },
+                "deprecated": false
+            },
+            "put": {
+                "tags": [
+                    "角色"
+                ],
+                "summary": "更新角色",
+                "operationId": "updateUsingPUT_3",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "*/*"
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "role",
+                        "description": "角色数据",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/HttpResultOfobject"
+                        }
+                    }
+                },
+                "deprecated": false
+            },
+            "delete": {
+                "tags": [
+                    "角色"
+                ],
+                "summary": "删除角色",
+                "operationId": "deleteUsingDELETE_3",
+                "produces": [
+                    "*/*"
+                ],
+                "parameters": [
+                    {
+                        "name": "force",
+                        "in": "query",
+                        "description": "是否强制",
+                        "required": false,
+                        "type": "boolean"
+                    },
+                    {
+                        "name": "id",
+                        "in": "query",
+                        "description": "角色ID",
+                        "required": false,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/HttpResultOfobject"
+                        }
+                    }
+                },
+                "deprecated": false
+            }
+        },
+        "/roles/active": {
+            "patch": {
+                "tags": [
+                    "角色"
+                ],
+                "summary": "改变角色的状态",
+                "operationId": "changeActiveUsingPATCH_3",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "*/*"
+                ],
+                "parameters": [
+                    {
+                        "name": "active",
+                        "in": "formData",
+                        "description": "状态",
+                        "required": false,
+                        "type": "boolean"
+                    },
+                    {
+                        "name": "id",
+                        "in": "formData",
+                        "description": "角色ID",
+                        "required": false,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/HttpResultOfobject"
+                        }
+                    }
+                },
+                "deprecated": false
+            }
+        },
+        "/roles/list": {
+            "get": {
+                "tags": [
+                    "角色"
+                ],
+                "summary": "获取机构的角色列表",
+                "operationId": "getRoleListUsingGET",
+                "produces": [
+                    "*/*"
+                ],
+                "parameters": [
+                    {
+                        "name": "active",
+                        "in": "query",
+                        "description": "是否可用",
+                        "required": false,
+                        "type": "boolean"
+                    },
+                    {
+                        "name": "multiLevel",
+                        "in": "query",
+                        "description": "是否返回多级机构的数据",
+                        "required": false,
+                        "type": "boolean"
+                    },
+                    {
+                        "name": "orgId",
+                        "in": "query",
+                        "description": "机构ID",
+                        "required": false,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/HttpResultOfobject"
+                        }
+                    }
+                },
+                "deprecated": false
+            }
+        },
+        "/roles/page": {
+            "get": {
+                "tags": [
+                    "角色"
+                ],
+                "summary": "获取角色列表分页",
+                "operationId": "getPageUsingGET_3",
+                "produces": [
+                    "*/*"
+                ],
+                "parameters": [
+                    {
+                        "name": "active",
+                        "in": "query",
+                        "required": false,
+                        "type": "boolean"
+                    },
+                    {
+                        "name": "condition.id",
+                        "in": "query",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "condition.name",
+                        "in": "query",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "condition.orgId",
+                        "in": "query",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "endTime",
+                        "in": "query",
+                        "required": false,
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    {
+                        "name": "multiLevel",
+                        "in": "query",
+                        "required": false,
+                        "type": "boolean"
+                    },
+                    {
+                        "name": "offset",
+                        "in": "query",
+                        "required": false,
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    {
+                        "name": "orderBy",
+                        "in": "query",
+                        "required": false,
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "collectionFormat": "multi"
+                    },
+                    {
+                        "name": "page",
+                        "description": "分页参数",
+                        "required": false,
+                        "schema": {
+                            "$ref": "#/definitions/RequestPage"
+                        }
+                    },
+                    {
+                        "name": "pageNum",
+                        "in": "query",
+                        "required": false,
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    {
+                        "name": "pageSize",
+                        "in": "query",
+                        "required": false,
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    {
+                        "name": "startTime",
+                        "in": "query",
+                        "required": false,
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/HttpResultOfobject"
+                        }
+                    }
+                },
+                "deprecated": false
+            }
+        },
+        "/users": {
+            "get": {
+                "tags": [
+                    "用户"
+                ],
+                "summary": "获取用户",
+                "operationId": "getUsingGET_4",
+                "produces": [
+                    "*/*"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "query",
+                        "description": "用户ID",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/HttpResultOfobject"
+                        }
+                    }
+                },
+                "deprecated": false
+            },
+            "post": {
+                "tags": [
+                    "用户"
+                ],
+                "summary": "添加用户",
+                "operationId": "createUsingPOST_4",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "*/*"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "query",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "locked",
+                        "in": "query",
+                        "required": false,
+                        "type": "boolean"
+                    },
+                    {
+                        "name": "name",
+                        "in": "query",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "orgId",
+                        "in": "query",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "password",
+                        "in": "query",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "user",
+                        "description": "用户数据",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "username",
+                        "in": "query",
+                        "required": false,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/HttpResultOfobject"
+                        }
+                    }
+                },
+                "deprecated": false
+            },
+            "put": {
+                "tags": [
+                    "用户"
+                ],
+                "summary": "更新用户",
+                "operationId": "updateUsingPUT_4",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "*/*"
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "user",
+                        "description": "用户数据",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/HttpResultOfobject"
+                        }
+                    }
+                },
+                "deprecated": false
+            },
+            "delete": {
+                "tags": [
+                    "用户"
+                ],
+                "summary": "删除用户",
+                "operationId": "deleteUsingDELETE_4",
+                "produces": [
+                    "*/*"
+                ],
+                "parameters": [
+                    {
+                        "name": "force",
+                        "in": "query",
+                        "description": "是否强制",
+                        "required": false,
+                        "type": "boolean"
+                    },
+                    {
+                        "name": "id",
+                        "in": "query",
+                        "description": "用户ID",
+                        "required": false,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/HttpResultOfobject"
+                        }
+                    }
+                },
+                "deprecated": false
+            }
+        },
+        "/users/active": {
+            "patch": {
+                "tags": [
+                    "用户"
+                ],
+                "summary": "改变用户的状态",
+                "operationId": "changeActiveUsingPATCH_4",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "*/*"
+                ],
+                "parameters": [
+                    {
+                        "name": "active",
+                        "in": "formData",
+                        "description": "状态",
+                        "required": false,
+                        "type": "boolean"
+                    },
+                    {
+                        "name": "id",
+                        "in": "formData",
+                        "description": "用户ID",
+                        "required": false,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/HttpResultOfobject"
+                        }
+                    }
+                },
+                "deprecated": false
+            }
+        },
+        "/users/list": {
+            "get": {
+                "tags": [
+                    "用户"
+                ],
+                "summary": "获取机构的用户列表",
+                "operationId": "getPlainUserListUsingGET",
+                "produces": [
+                    "*/*"
+                ],
+                "parameters": [
+                    {
+                        "name": "active",
+                        "in": "query",
+                        "description": "是否可用",
+                        "required": false,
+                        "type": "boolean"
+                    },
+                    {
+                        "name": "multiLevel",
+                        "in": "query",
+                        "description": "是否返回多级机构的数据",
+                        "required": false,
+                        "type": "boolean"
+                    },
+                    {
+                        "name": "orgId",
+                        "in": "query",
+                        "description": "机构ID",
+                        "required": false,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/HttpResultOfobject"
+                        }
+                    }
+                },
+                "deprecated": false
+            }
+        },
+        "/users/page": {
+            "get": {
+                "tags": [
+                    "用户"
+                ],
+                "summary": "获取用户列表分页",
+                "operationId": "getPageUsingGET_4",
+                "produces": [
+                    "*/*"
+                ],
+                "parameters": [
+                    {
+                        "name": "active",
+                        "in": "query",
+                        "required": false,
+                        "type": "boolean"
+                    },
+                    {
+                        "name": "condition.id",
+                        "in": "query",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "condition.locked",
+                        "in": "query",
+                        "required": false,
+                        "type": "boolean"
+                    },
+                    {
+                        "name": "condition.name",
+                        "in": "query",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "condition.orgId",
+                        "in": "query",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "condition.password",
+                        "in": "query",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "condition.username",
+                        "in": "query",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "endTime",
+                        "in": "query",
+                        "required": false,
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    {
+                        "name": "multiLevel",
+                        "in": "query",
+                        "required": false,
+                        "type": "boolean"
+                    },
+                    {
+                        "name": "offset",
+                        "in": "query",
+                        "required": false,
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    {
+                        "name": "orderBy",
+                        "in": "query",
+                        "required": false,
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "collectionFormat": "multi"
+                    },
+                    {
+                        "name": "page",
+                        "description": "分页参数",
+                        "required": false,
+                        "schema": {
+                            "$ref": "#/definitions/RequestPage"
+                        }
+                    },
+                    {
+                        "name": "pageNum",
+                        "in": "query",
+                        "required": false,
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    {
+                        "name": "pageSize",
+                        "in": "query",
+                        "required": false,
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    {
+                        "name": "startTime",
+                        "in": "query",
+                        "required": false,
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/HttpResultOfobject"
+                        }
+                    }
+                },
+                "deprecated": false
+            }
+        }
+    },
+    "definitions": {
+        "HttpResultOfobject": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "data": {
+                    "type": "object"
+                },
+                "msg": {
+                    "type": "string"
+                }
+            },
+            "title": "HttpResultOfobject"
+        },
+        "QrtzJobTask": {
+            "type": "object",
+            "properties": {
+                "active": {
+                    "type": "boolean"
+                },
+                "async": {
+                    "type": "boolean"
+                },
+                "calendarName": {
+                    "type": "string"
+                },
+                "cronExpression": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "disallowConcurrent": {
+                    "type": "boolean"
+                },
+                "endAt": {
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "jobAlias": {
+                    "type": "string"
+                },
+                "jobData": {
+                    "type": "string"
+                },
+                "jobGroup": {
+                    "type": "string"
+                },
+                "jobName": {
+                    "type": "string"
+                },
+                "jobType": {
+                    "type": "string"
+                },
+                "misfirePolicy": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "persistent": {
+                    "type": "boolean"
+                },
+                "priority": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "recovery": {
+                    "type": "boolean"
+                },
+                "simpleInterval": {
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "simpleRepeatCount": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "startAt": {
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "triggerGroup": {
+                    "type": "string"
+                },
+                "triggerName": {
+                    "type": "string"
+                },
+                "triggerType": {
+                    "type": "string"
+                },
+                "worker": {
+                    "type": "string"
+                },
+                "workerType": {
+                    "type": "string"
+                }
+            },
+            "title": "QrtzJobTask"
+        },
+        "SysMenu": {
+            "type": "object",
+            "properties": {
+                "active": {
+                    "type": "boolean"
+                },
+                "creatorId": {
+                    "type": "string"
+                },
+                "icon": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "orgId": {
+                    "type": "string"
+                },
+                "parentId": {
+                    "type": "string"
+                },
+                "remarks": {
+                    "type": "string"
+                },
+                "uri": {
+                    "type": "string"
+                }
+            },
+            "title": "SysMenu"
+        },
+        "SysOrganization": {
+            "type": "object",
+            "properties": {
+                "active": {
+                    "type": "boolean"
+                },
+                "autoCode": {
+                    "type": "string"
+                },
+                "code": {
+                    "type": "string"
+                },
+                "creatorId": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "logo": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "parentId": {
+                    "type": "string"
+                },
+                "remarks": {
+                    "type": "string"
+                }
+            },
+            "title": "SysOrganization"
+        },
+        "SysRole": {
+            "type": "object",
+            "properties": {
+                "active": {
+                    "type": "boolean"
+                },
+                "creatorId": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "orgId": {
+                    "type": "string"
+                },
+                "remarks": {
+                    "type": "string"
+                }
+            },
+            "title": "SysRole"
+        },
+        "SysUser": {
+            "type": "object",
+            "properties": {
+                "active": {
+                    "type": "boolean"
+                },
+                "creatorId": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "orgId": {
+                    "type": "string"
+                },
+                "remarks": {
+                    "type": "string"
+                },
+                "username": {
+                    "type": "string"
+                }
+            },
+            "title": "SysUser"
+        }
+    }
+}

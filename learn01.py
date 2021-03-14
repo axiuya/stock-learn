@@ -406,7 +406,10 @@ if __name__ == '__main__':
 
     # test_datastruct()
 
-    print(sys.path)
-    print(dir())
-    print(dir(sys))
-    print(dir(builtins))
+    # print(sys.path)
+    # print(dir())
+    # print(dir(sys))
+    # print(dir(builtins))
+
+    for i in reversed(range(1, 10, 2)):
+        print(i)
